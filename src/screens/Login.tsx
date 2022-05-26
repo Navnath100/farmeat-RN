@@ -17,6 +17,14 @@ export default function Login({ navigation }: { navigation: any }) {
         <Text style={GlobalStyles.title}>
           Login
         </Text>
+        <Text style={GlobalStyles.subTitle}>
+          New here?
+          <Text
+            onPress={function () {
+              navigation.navigate("Signup1");
+            }}
+            style={GlobalStyles.subTitleButton}> Create account</Text>
+        </Text>
         <View style={styles.textInputContainer} >
           <Entypo style={styles.textInputIcon} name='email' size={20} color={colors.black} />
           <TextInput

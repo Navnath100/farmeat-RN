@@ -76,4 +76,8 @@ export default StyleSheet.create({
         fontWeight: '400',
         textAlignVertical: 'center'
     },
+    signupStep:{
+alignSelf:'flex-start',
+color:colors.placeholderColor
+    }
 })

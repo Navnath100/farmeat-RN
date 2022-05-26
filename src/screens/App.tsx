@@ -8,6 +8,7 @@ import Index from './Onboarding/Index';
 import ForgotPassword from './ForgotPassword';
 import VerifyOtp from './VerifyOtp';
 import ResetPassword from './ResetPassword';
+import Signup1 from './SignUp/Signup1';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,7 @@ export default function App() {
                 <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
                 <Stack.Screen name="VerifyOtp" component={VerifyOtp} />
                 <Stack.Screen name="ResetPassword" component={ResetPassword} />
+                <Stack.Screen name="Signup1" component={Signup1} />
             </Stack.Navigator>
         </NavigationContainer>
     )

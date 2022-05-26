@@ -21,7 +21,6 @@ export default function Index({ navigation }: { navigation: any }) {
             setCurrentIndex(changed[0].index);
         }
     })
-    console.log(currentIndex);
 
     return (
         <View style={styles.container}>
