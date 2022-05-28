@@ -54,7 +54,9 @@ export default StyleSheet.create({
         borderRadius: 8,
         flexDirection: 'row',
         backgroundColor: colors.lightGray,
-        marginVertical: 10
+        marginVertical: 10,
+        alignItems:'center',
+        justifyContent:'center'
     },
     textInput: {
         // width: (width / 100) * 90,

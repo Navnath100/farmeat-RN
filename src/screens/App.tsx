@@ -9,6 +9,10 @@ import ForgotPassword from './ForgotPassword';
 import VerifyOtp from './VerifyOtp';
 import ResetPassword from './ResetPassword';
 import Signup1 from './SignUp/Signup1';
+import Signup2 from './SignUp/Signup2';
+import Signup3 from './SignUp/Signup3';
+import Signup4 from './SignUp/Signup4';
+import SignupComplete from './SignUp/SignupComplete';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +23,7 @@ export default function App() {
                 screenOptions={{
                     headerShown: false
                 }}
+                initialRouteName={'Signup4'}
             >
                 <Stack.Screen name="Onboarding" component={Index} />
                 <Stack.Screen name="Home" component={Home} />
@@ -27,6 +32,10 @@ export default function App() {
                 <Stack.Screen name="VerifyOtp" component={VerifyOtp} />
                 <Stack.Screen name="ResetPassword" component={ResetPassword} />
                 <Stack.Screen name="Signup1" component={Signup1} />
+                <Stack.Screen name="Signup2" component={Signup2} />
+                <Stack.Screen name="Signup3" component={Signup3} />
+                <Stack.Screen name="Signup4" component={Signup4} />
+                <Stack.Screen name="SignupComplete" component={SignupComplete} />
             </Stack.Navigator>
         </NavigationContainer>
     )

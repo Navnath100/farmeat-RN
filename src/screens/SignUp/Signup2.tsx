@@ -1,110 +1,108 @@
-import { View, Text, StyleSheet, TextInput, Dimensions, Image } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Dimensions } from 'react-native'
 import React, { useState } from 'react'
 import { displayName } from '../../../app.json';
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import Entypo from 'react-native-vector-icons/Entypo'
 import Feather from 'react-native-vector-icons/Feather'
-import AntDesign from 'react-native-vector-icons/AntDesign'
+import Octicons from 'react-native-vector-icons/Octicons'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../assets/colors';
 import GlobalStyles from '../../components/GlobalStyles';
+import DropDown from '../../components/DropDown';
+import states from '../../assets/json/states';
 
 const { width, height } = Dimensions.get('window');
-export default function Signup1({ navigation }: { navigation: any }) {
-    const [email, setEmail] = useState(String)
+const textInputWidth = width / 100 * 90
+export default function Signup2({ navigation }: { navigation: any }) {
+    const [email, setEmail] = useState(String);
+    const [state, setState] = useState(undefined);
     return (
         <>
             <View style={GlobalStyles.container}>
                 <Text style={GlobalStyles.appName}>{displayName}</Text>
-                <Text style={GlobalStyles.signupStep}>Signup 1 of 4</Text>
+                <Text style={GlobalStyles.signupStep}>Signup 2 of 4</Text>
                 <Text style={GlobalStyles.title}>
-                    Welcome!
+                    Farm Info
                 </Text>
 
-                <View style={styles.loginOptionContainer}>
-                    <TouchableOpacity style={styles.iconContainer}>
-                        <Image
-                            style={styles.loginWithIcon}
-                            source={require('../../assets/img/google.png')}
+                <View style={GlobalStyles.textInputContainer} >
+                    <Octicons style={GlobalStyles.textInputIcon} name='tag' size={20} color={colors.black} />
+                    <TextInput
+                        style={GlobalStyles.textInput}
+                        onChangeText={(text) => setEmail(text)}
+                        placeholder={"Business Name"}
+                        placeholderTextColor={colors.placeholderColor}
+                        multiline={false}
+                    />
+                </View>
+
+                <View style={GlobalStyles.textInputContainer} >
+                    <Feather style={GlobalStyles.textInputIcon} name='smile' size={20} color={colors.black} />
+                    <TextInput
+                        style={GlobalStyles.textInput}
+                        onChangeText={(text) => setEmail(text)}
+                        placeholder={"Informal Name"}
+                        placeholderTextColor={colors.placeholderColor}
+                        multiline={false}
+                    />
+                </View>
+
+                <View style={GlobalStyles.textInputContainer} >
+                    <Octicons style={GlobalStyles.textInputIcon} name='home' size={20} color={colors.black} />
+                    <TextInput
+                        style={GlobalStyles.textInput}
+                        onChangeText={(text) => setEmail(text)}
+                        placeholder={"Street Address"}
+                        placeholderTextColor={colors.placeholderColor}
+                        multiline={false}
+                    />
+                </View>
+                <View style={GlobalStyles.textInputContainer} >
+                    <Ionicons style={GlobalStyles.textInputIcon} name='location-outline' size={25} color={colors.black} />
+                    <TextInput
+                        style={GlobalStyles.textInput}
+                        onChangeText={(text) => setEmail(text)}
+                        placeholder={"City"}
+                        placeholderTextColor={colors.placeholderColor}
+                        multiline={false}
+                    />
+                </View>
+
+                <View style={{ width: textInputWidth, flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <DropDown
+                        style={{ width: textInputWidth / 100 * 40 }}
+                        data={states}
+                        setSelectedItem={(item: any) => setState(item)}
+                        searchable={true}
+                        defaultValue={state}
+                        placeholder={"State"}
+                    />
+                    <View style={[GlobalStyles.textInputContainer, { width: textInputWidth / 100 * 55 }]} >
+                        <Ionicons style={GlobalStyles.textInputIcon} name='location-outline' size={25} color={colors.black} />
+                        <TextInput
+                            style={GlobalStyles.textInput}
+                            onChangeText={(text) => setEmail(text)}
+                            placeholder={"City"}
+                            placeholderTextColor={colors.placeholderColor}
+                            multiline={false}
                         />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.iconContainer}>
-                        <AntDesign name="apple1" size={30} color={colors.black} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.iconContainer}>
-                        <Image
-                            style={styles.loginWithIcon}
-                            source={require('../../assets/img/facebook.png')}
-                        />
-                    </TouchableOpacity>
-                </View>
-
-                <View style={GlobalStyles.textInputContainer} >
-                    <Feather style={GlobalStyles.textInputIcon} name='user' size={25} color={colors.black} />
-                    <TextInput
-                        style={GlobalStyles.textInput}
-                        onChangeText={(text) => setEmail(text)}
-                        placeholder={"Full name"}
-                        placeholderTextColor={colors.placeholderColor}
-                        multiline={false}
-                    />
-                </View>
-
-                <View style={GlobalStyles.textInputContainer} >
-                    <Entypo style={GlobalStyles.textInputIcon} name='email' size={20} color={colors.black} />
-                    <TextInput
-                        style={GlobalStyles.textInput}
-                        onChangeText={(text) => setEmail(text)}
-                        placeholder={"Email"}
-                        placeholderTextColor={colors.placeholderColor}
-                        multiline={false}
-                    />
-                </View>
-                <View style={GlobalStyles.textInputContainer} >
-                    <Feather style={GlobalStyles.textInputIcon} name='phone' size={20} color={colors.black} />
-                    <TextInput
-                        style={GlobalStyles.textInput}
-                        onChangeText={(text) => setEmail(text)}
-                        placeholder={"Phone"}
-                        placeholderTextColor={colors.placeholderColor}
-                        multiline={false}
-                    />
-                </View>
-                <View style={GlobalStyles.textInputContainer} >
-                    <MaterialIcons style={GlobalStyles.textInputIcon} name='lock-outline' size={25} color={colors.black} />
-                    <TextInput
-                        style={GlobalStyles.textInput}
-                        onChangeText={(text) => setEmail(text)}
-                        placeholder={"Password"}
-                        placeholderTextColor={colors.placeholderColor}
-                        multiline={false}
-                    />
-                </View>
-                <View style={GlobalStyles.textInputContainer} >
-                    <MaterialIcons style={GlobalStyles.textInputIcon} name='lock-outline' size={25} color={colors.black} />
-                    <TextInput
-                        style={GlobalStyles.textInput}
-                        onChangeText={(text) => setEmail(text)}
-                        placeholder={"Re-enter Password"}
-                        placeholderTextColor={colors.placeholderColor}
-                        multiline={false}
-                    />
+                    </View>
                 </View>
 
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity
+                        style={{ width: 90, alignItems: 'center', justifyContent: 'center' }}
                         onPress={function () {
-                            navigation.navigate("Login");
+                            navigation.goBack();
                         }}
                     >
 
-                        <Text style={styles.loginButton}>Login</Text>
+                        <MaterialIcons size={30} color={colors.black} name="keyboard-backspace" />
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={function () {
-                            navigation.navigate("Signup2")
-                        }}
+                    onPress={function () {
+                        navigation.navigate("Signup3")
+                    }}
                     >
                         <Text style={[GlobalStyles.button, { width: (width / 100 * 85) - 90 }]}>Continue</Text>
                     </TouchableOpacity>
