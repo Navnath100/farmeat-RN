@@ -28,7 +28,6 @@ export default function Index({ navigation }: { navigation: any }) {
                 style={styles.img}
                 source={screensArray[currentIndex].img}
                 resizeMethod={'resize'}
-
             />
             <View style={styles.footer}>
                 <FlatList
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
     },
     footer: {
         width,
-        height: (height / 100) * 30,
+        height: (height / 100) * 25,
         backgroundColor: colors.white,
         borderTopEndRadius: 30,
         borderTopStartRadius: 30,

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, Dimensions, Image } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Dimensions, Image, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { displayName } from '../../../app.json';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -8,10 +8,40 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../assets/colors';
 import GlobalStyles from '../../components/GlobalStyles';
+import { ValidateConfirmPassword, ValidateEmail, ValidateName, ValidatePassword, ValidatePhone } from '../../components/validators';
 
 const { width, height } = Dimensions.get('window');
 export default function Signup1({ navigation }: { navigation: any }) {
+    const [name, setName] = useState(String)
     const [email, setEmail] = useState(String)
+    const [phone, setPhone] = useState(String)
+    const [password, setPassword] = useState(String)
+    const [confirmPassword, setConfirmPassword] = useState(String)
+
+    function showAlert(text: any) {
+        Alert.alert("Alert", text);
+    }
+
+    function validation() {
+        const nameValidation = ValidateName(name)
+        const emailValidation = ValidateEmail(email)
+        const phoneValidation = ValidatePhone(phone)
+        const passwordValidation = ValidatePassword(password)
+        const confirmPasswordValidation = ValidateConfirmPassword(password, confirmPassword)
+        if (nameValidation.isError) showAlert(nameValidation.err)
+        else if (emailValidation.isError) showAlert(emailValidation.err)
+        else if (phoneValidation.isError) showAlert(phoneValidation.err)
+        else if (passwordValidation.isError) showAlert(passwordValidation.err)
+        else if (confirmPasswordValidation.isError) showAlert(confirmPasswordValidation.err)
+        else navigation.navigate("Signup2", {
+            user: {
+                "full-name": name,
+                email,
+                phone, password
+            }
+        })
+    }
+
     return (
         <>
             <View style={GlobalStyles.container}>
@@ -44,7 +74,8 @@ export default function Signup1({ navigation }: { navigation: any }) {
                     <Feather style={GlobalStyles.textInputIcon} name='user' size={25} color={colors.black} />
                     <TextInput
                         style={GlobalStyles.textInput}
-                        onChangeText={(text) => setEmail(text)}
+                        onChangeText={(text) => setName(text)}
+                        defaultValue={name}
                         placeholder={"Full name"}
                         placeholderTextColor={colors.placeholderColor}
                         multiline={false}
@@ -57,6 +88,7 @@ export default function Signup1({ navigation }: { navigation: any }) {
                         style={GlobalStyles.textInput}
                         onChangeText={(text) => setEmail(text)}
                         placeholder={"Email"}
+                        defaultValue={email}
                         placeholderTextColor={colors.placeholderColor}
                         multiline={false}
                     />
@@ -65,8 +97,11 @@ export default function Signup1({ navigation }: { navigation: any }) {
                     <Feather style={GlobalStyles.textInputIcon} name='phone' size={20} color={colors.black} />
                     <TextInput
                         style={GlobalStyles.textInput}
-                        onChangeText={(text) => setEmail(text)}
+                        onChangeText={(text) => setPhone(text)}
                         placeholder={"Phone"}
+                        keyboardType={'number-pad'}
+                        maxLength={10}
+                        defaultValue={phone}
                         placeholderTextColor={colors.placeholderColor}
                         multiline={false}
                     />
@@ -75,8 +110,9 @@ export default function Signup1({ navigation }: { navigation: any }) {
                     <MaterialIcons style={GlobalStyles.textInputIcon} name='lock-outline' size={25} color={colors.black} />
                     <TextInput
                         style={GlobalStyles.textInput}
-                        onChangeText={(text) => setEmail(text)}
+                        onChangeText={(text) => setPassword(text)}
                         placeholder={"Password"}
+                        defaultValue={password}
                         placeholderTextColor={colors.placeholderColor}
                         multiline={false}
                     />
@@ -85,7 +121,8 @@ export default function Signup1({ navigation }: { navigation: any }) {
                     <MaterialIcons style={GlobalStyles.textInputIcon} name='lock-outline' size={25} color={colors.black} />
                     <TextInput
                         style={GlobalStyles.textInput}
-                        onChangeText={(text) => setEmail(text)}
+                        onChangeText={(text) => setConfirmPassword(text)}
+                        defaultValue={confirmPassword}
                         placeholder={"Re-enter Password"}
                         placeholderTextColor={colors.placeholderColor}
                         multiline={false}
@@ -98,13 +135,10 @@ export default function Signup1({ navigation }: { navigation: any }) {
                             navigation.navigate("Login");
                         }}
                     >
-
                         <Text style={styles.loginButton}>Login</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={function () {
-                            navigation.navigate("Signup2")
-                        }}
+                        onPress={validation}
                     >
                         <Text style={[GlobalStyles.button, { width: (width / 100 * 85) - 90 }]}>Continue</Text>
                     </TouchableOpacity>

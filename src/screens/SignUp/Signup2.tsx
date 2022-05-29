@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Dimensions, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { displayName } from '../../../app.json';
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -13,9 +13,44 @@ import states from '../../assets/json/states';
 
 const { width, height } = Dimensions.get('window');
 const textInputWidth = width / 100 * 90
-export default function Signup2({ navigation }: { navigation: any }) {
-    const [email, setEmail] = useState(String);
-    const [state, setState] = useState(undefined);
+export default function Signup2({ navigation, route }: { navigation: any, route: any }) {
+    const [business_name, setBusinessName] = useState(String)
+    const [informal_name, setInformalName] = useState(String)
+    const [address, setAddress] = useState(String)
+    const [state, setState] = useState(String);
+    const [city, setcCity] = useState(String)
+    const [zip_code, setZipcode] = useState(Number)
+    const userDetails = route.params.user;
+
+    function showAlert(text: any) {
+        Alert.alert("Alert", text);
+    }
+
+    function validation() {
+        try {
+            if (!business_name) showAlert("Enter business name")
+            else if (!informal_name) showAlert("Enter informal name")
+            else if (!address) showAlert("Enter address")
+            else if (!city) showAlert("Enter city")
+            else if (!state) showAlert("Select state")
+            else if (!zip_code) showAlert("Enter zipcode")
+            else navigation.navigate("Signup3", {
+                user: {
+                    ...userDetails,
+                    business_name,
+                    informal_name,
+                    address,
+                    city,
+                    state,
+                    zip_code
+                }
+            })
+        } catch (error: any) {
+            Alert.alert("Signup 2", error)
+        }
+
+    }
+
     return (
         <>
             <View style={GlobalStyles.container}>
@@ -29,8 +64,9 @@ export default function Signup2({ navigation }: { navigation: any }) {
                     <Octicons style={GlobalStyles.textInputIcon} name='tag' size={20} color={colors.black} />
                     <TextInput
                         style={GlobalStyles.textInput}
-                        onChangeText={(text) => setEmail(text)}
+                        onChangeText={(text) => setBusinessName(text)}
                         placeholder={"Business Name"}
+                        defaultValue={business_name}
                         placeholderTextColor={colors.placeholderColor}
                         multiline={false}
                     />
@@ -40,8 +76,9 @@ export default function Signup2({ navigation }: { navigation: any }) {
                     <Feather style={GlobalStyles.textInputIcon} name='smile' size={20} color={colors.black} />
                     <TextInput
                         style={GlobalStyles.textInput}
-                        onChangeText={(text) => setEmail(text)}
+                        onChangeText={(text) => setInformalName(text)}
                         placeholder={"Informal Name"}
+                        defaultValue={informal_name}
                         placeholderTextColor={colors.placeholderColor}
                         multiline={false}
                     />
@@ -51,8 +88,9 @@ export default function Signup2({ navigation }: { navigation: any }) {
                     <Octicons style={GlobalStyles.textInputIcon} name='home' size={20} color={colors.black} />
                     <TextInput
                         style={GlobalStyles.textInput}
-                        onChangeText={(text) => setEmail(text)}
+                        onChangeText={(text) => setAddress(text)}
                         placeholder={"Street Address"}
+                        defaultValue={address}
                         placeholderTextColor={colors.placeholderColor}
                         multiline={false}
                     />
@@ -61,8 +99,9 @@ export default function Signup2({ navigation }: { navigation: any }) {
                     <Ionicons style={GlobalStyles.textInputIcon} name='location-outline' size={25} color={colors.black} />
                     <TextInput
                         style={GlobalStyles.textInput}
-                        onChangeText={(text) => setEmail(text)}
+                        onChangeText={(text) => setcCity(text)}
                         placeholder={"City"}
+                        defaultValue={city}
                         placeholderTextColor={colors.placeholderColor}
                         multiline={false}
                     />
@@ -78,11 +117,13 @@ export default function Signup2({ navigation }: { navigation: any }) {
                         placeholder={"State"}
                     />
                     <View style={[GlobalStyles.textInputContainer, { width: textInputWidth / 100 * 55 }]} >
-                        <Ionicons style={GlobalStyles.textInputIcon} name='location-outline' size={25} color={colors.black} />
+                        {/* <Ionicons style={GlobalStyles.textInputIcon} name='location-outline' size={25} color={colors.black} /> */}
                         <TextInput
-                            style={GlobalStyles.textInput}
-                            onChangeText={(text) => setEmail(text)}
-                            placeholder={"City"}
+                            style={[GlobalStyles.textInput, { paddingStart: 20 }]}
+                            onChangeText={(text: any) => setZipcode(text)}
+                            placeholder={"Zipcode"}
+                            keyboardType={'number-pad'}
+                            maxLength={6}
                             placeholderTextColor={colors.placeholderColor}
                             multiline={false}
                         />
@@ -100,9 +141,7 @@ export default function Signup2({ navigation }: { navigation: any }) {
                         <MaterialIcons size={30} color={colors.black} name="keyboard-backspace" />
                     </TouchableOpacity>
                     <TouchableOpacity
-                    onPress={function () {
-                        navigation.navigate("Signup3")
-                    }}
+                        onPress={validation}
                     >
                         <Text style={[GlobalStyles.button, { width: (width / 100 * 85) - 90 }]}>Continue</Text>
                     </TouchableOpacity>

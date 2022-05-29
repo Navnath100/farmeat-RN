@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         height: (height / 100) * 20,
         backgroundColor: colors.white,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     joinTheMoment: {
         height: 50,
@@ -48,6 +48,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '500',
         marginVertical: 20,
+        padding:10,
+        paddingHorizontal:20,
         color: colors.black
     }
 })

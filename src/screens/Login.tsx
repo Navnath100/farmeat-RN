@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, Dimensions, Image } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Dimensions, Image, Alert } from 'react-native'
 import React, { useState } from 'react'
 import colors from '../assets/colors'
 import { displayName } from '../../app.json';
@@ -7,9 +7,49 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import GlobalStyles from '../components/GlobalStyles';
+import apiList from '../server/apiList';
+import { ValidateEmail } from '../components/validators';
 const { width, height } = Dimensions.get('window');
 export default function Login({ navigation }: { navigation: any }) {
-  const [email, setEmail] = useState(String)
+  const [email, setEmail] = useState(String);
+  const [password, setPassword] = useState(String);
+  const role = "farmer";
+
+  function validation() {
+    const validationEmail = ValidateEmail(email)
+    if (validationEmail.isError) {
+      Alert.alert("Alert", validationEmail.err)
+    } else if (!password)
+      Alert.alert("Alert", "Please enter password")
+    else login()
+  }
+
+
+  async function login() {
+    const body = {
+      email,
+      password,
+      role
+    };
+    try {
+      fetch(apiList.login, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      })
+        .then((response) => response.json())
+        .then(res => {
+          console.log(res);
+          Alert.alert(res.success ? "Success" : "Alert", res.message)
+        });
+    } catch (error: any) {
+      Alert.alert("Alert", error)
+    }
+  }
+
   return (
     <>
       <View style={styles.container}>
@@ -31,6 +71,7 @@ export default function Login({ navigation }: { navigation: any }) {
             style={styles.textInput}
             onChangeText={(text) => setEmail(text)}
             placeholder={"Email"}
+            defaultValue={email}
             placeholderTextColor={colors.placeholderColor}
             multiline={false}
           />
@@ -40,8 +81,9 @@ export default function Login({ navigation }: { navigation: any }) {
           <MaterialIcons style={styles.textInputIcon} name='lock-outline' size={25} color={colors.black} />
           <TextInput
             style={styles.textInput}
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={(text) => setPassword(text)}
             placeholder={"Password"}
+            defaultValue={password}
             placeholderTextColor={colors.placeholderColor}
             multiline={false}
           />
@@ -54,7 +96,7 @@ export default function Login({ navigation }: { navigation: any }) {
             <Text style={styles.textInputIconRight}>Forgot?</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={validation}>
           <Text style={styles.loginButton}>Login</Text>
         </TouchableOpacity>
         <Text style={styles.orLoginWith} >or login with</Text>

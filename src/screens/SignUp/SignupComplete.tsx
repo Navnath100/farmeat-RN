@@ -19,10 +19,10 @@ export default function ({ navigation }: { navigation: any }) {
       <TouchableOpacity
         style={styles.btn}
         onPress={function () {
-          navigation.navigate("Signup4")
+          navigation.navigate("Login")
         }}
       >
-        <Text style={[GlobalStyles.button, { width: (width / 100 * 85) - 90 }]}>Continue</Text>
+        <Text style={[GlobalStyles.button, { width: (width / 100 * 85) - 90 }]}>Got it!</Text>
       </TouchableOpacity>
     </View>
   )

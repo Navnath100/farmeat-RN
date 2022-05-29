@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Dimensions, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { displayName } from '../../../app.json';
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -10,6 +10,7 @@ import colors from '../../assets/colors';
 import GlobalStyles from '../../components/GlobalStyles';
 import DropDown from '../../components/DropDown';
 import states from '../../assets/json/states';
+import apiList from '../../server/apiList';
 
 const { width, height } = Dimensions.get('window');
 const weekDay = ["M", "T", "W", "Th", "F", "S", "Su"]
@@ -26,7 +27,7 @@ const workingHours = [
 // { label: "04:00pm - 07:00pm", item: "4to7" },
 // { label: "07:00pm - 10:00pm", item: "7to10" }]
 const textInputWidth = width / 100 * 90
-export default function ({ navigation }: { navigation: any }) {
+export default function ({ navigation, route }: { navigation: any, route: any }) {
     const [email, setEmail] = useState(String);
     const [state, setState] = useState(Array);
     const [selectedDay, setselectedDay] = useState("M");
@@ -37,6 +38,7 @@ export default function ({ navigation }: { navigation: any }) {
     const [fri, setFri] = useState(Array);
     const [sat, setSat] = useState(Array);
     const [sun, setSun] = useState(Array);
+    const userDetails = route.params.user;
 
     function setWorkingHours({ item }: { item: any }) {
         if (selectedDay == "M") {
@@ -116,6 +118,50 @@ export default function ({ navigation }: { navigation: any }) {
         return false
         // item === workingHours[0]
     }
+
+    function showAlert(text: any) {
+        Alert.alert("Alert", text);
+    }
+
+    function validation() {
+        if (!(mon.length >= 1)) showAlert("Select business hours for monday")
+        else if (!(mon.length >= 1)) showAlert("Select business hours for tuesday")
+        else if (!(tue.length >= 1)) showAlert("Select business hours for tuesday")
+        else if (!(wed.length >= 1)) showAlert("Select business hours for wednesday")
+        else if (!(thu.length >= 1)) showAlert("Select business hours for thursday")
+        else if (!(fri.length >= 1)) showAlert("Select business hours for friday")
+        else if (!(sat.length >= 1)) showAlert("Select business hours for saturday")
+        else if (!(sun.length >= 1)) showAlert("Select business hours for sunday")
+        else signup();
+    }
+
+
+    async function signup() {
+        try {
+            const body = {
+                ...userDetails,
+                business_hours: {
+                    mon, tue, wed, thu, fri, sat, sun
+                }
+            };
+            fetch(apiList.signup, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            })
+                .then((res) => {
+                    if (res.ok) navigation.navigate("SignupComplete")
+                    else Alert.alert(res.ok ? "Success" : "Alert", `status:${res.status}`)
+                }
+                )
+        } catch (error: any) {
+            Alert.alert("Signup error", error)
+        }
+    }
+
     return (
         <>
             <View style={GlobalStyles.container}>
@@ -175,9 +221,7 @@ export default function ({ navigation }: { navigation: any }) {
                         <MaterialIcons size={30} color={colors.black} name="keyboard-backspace" />
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={function () {
-                            navigation.navigate("SignupComplete")
-                        }}
+                        onPress={validation}
                     >
                         <Text style={[GlobalStyles.button, { width: (width / 100 * 85) - 90 }]}>Signup</Text>
                     </TouchableOpacity>

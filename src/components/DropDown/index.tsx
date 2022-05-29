@@ -133,7 +133,7 @@ export default function ({
                         {
                             searchable &&
                             <View
-                                style={[styles.dropdownView, styles.search, style]}
+                                style={[styles.dropdownView, styles.search]}
                             >
                                 <TextInput
                                     style={styles.searchTextInput}
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         zIndex: 1
     },
-    search: { borderWidth: 0, borderBottomWidth: 1, width: width - (width / 100 * 10 + 20), alignSelf: 'center' },
+    search: { borderWidth: 0, borderBottomWidth: 1, width: width - ((width / 100 * 10) + 20), alignSelf: 'center' },
     text: { flex: 1, paddingStart: 10, fontFamily: fonts.regular, fontSize: 14,textAlign:'center' },
     textInputView: { height: 50 },
     textInputTitleView: {

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Dimensions, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { displayName } from '../../../app.json';
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -12,10 +12,23 @@ import DocumentPicker from 'react-native-document-picker';
 
 const { width, height } = Dimensions.get('window');
 const textInputWidth = width / 100 * 90
-export default function Signup3({ navigation }: { navigation: any }) {
-    const [email, setEmail] = useState(String);
-    const [state, setState] = useState(undefined);
-    const [proof, setProof] = useState(Object);
+export default function Signup3({ navigation, route }: { navigation: any, route: any }) {
+    const [registration_proof, setProof] = useState(String);
+    const userDetails = route.params.user;
+
+    function validation() {
+        if (registration_proof) {
+            navigation.navigate("Signup4", {
+                user: {
+                    ...userDetails,
+                    registration_proof
+                }
+            })
+        }
+        else
+            Alert.alert("Alert", "Please attach a registration proof")
+    }
+
     const chooseFile = async () => {
         try {
             const res = await DocumentPicker.pick({
@@ -23,7 +36,7 @@ export default function Signup3({ navigation }: { navigation: any }) {
             })
             const type = res[0].name.split(".")
             console.log(res[0]);
-            setProof(res[0]);
+            setProof(res[0].name);
         } catch (err) {
             if (DocumentPicker.isCancel(err)) {
                 console.log("canceled");
@@ -55,17 +68,17 @@ export default function Signup3({ navigation }: { navigation: any }) {
                 </View>
 
                 {
-                    proof.name &&
-                    <View style={[styles.cameraContainer, { backgroundColor: colors.lightGray, marginVertical: 30 }]}>
-                        <Text style={styles.proofName}>{proof.name}</Text>
-                        <TouchableOpacity
-                            onPress={function () {
-                                setProof({});
-                            }}
-                        >
-                            <Entypo name="cross" size={25} color={colors.black} />
-                        </TouchableOpacity>
-                    </View>
+                    registration_proof ?
+                        <View style={[styles.cameraContainer, { backgroundColor: colors.lightGray, marginVertical: 30 }]}>
+                            <Text style={styles.proofName}>{registration_proof}</Text>
+                            <TouchableOpacity
+                                onPress={function () {
+                                    setProof(String);
+                                }}
+                            >
+                                <Entypo name="cross" size={25} color={colors.black} />
+                            </TouchableOpacity>
+                        </View> : null
                 }
 
                 <View style={[styles.buttonContainer, { position: 'absolute', bottom: 20 }]}>
@@ -79,9 +92,7 @@ export default function Signup3({ navigation }: { navigation: any }) {
                         <MaterialIcons size={30} color={colors.black} name="keyboard-backspace" />
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={function () {
-                            navigation.navigate("Signup4")
-                        }}
+                        onPress={validation}
                     >
                         <Text style={[GlobalStyles.button, { width: (width / 100 * 85) - 90 }]}>Continue</Text>
                     </TouchableOpacity>
@@ -137,10 +148,10 @@ const styles = StyleSheet.create({
         color: colors.black,
         fontWeight: '500'
     },
-    proofName:{
-        fontSize:14,
-        fontWeight:"500",
+    proofName: {
+        fontSize: 14,
+        fontWeight: "500",
         textDecorationLine: 'underline',
-        color:colors.black
+        color: colors.black
     }
 })
