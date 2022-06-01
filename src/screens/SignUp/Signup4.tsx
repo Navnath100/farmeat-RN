@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, Dimensions, Alert } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Dimensions, Alert, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { displayName } from '../../../app.json';
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -138,25 +138,58 @@ export default function ({ navigation, route }: { navigation: any, route: any })
 
     async function signup() {
         try {
+            let formdata = new FormData();
+            formdata.append("full_name", userDetails.name)
+            formdata.append("email", userDetails.email)
+            formdata.append("phone", userDetails.email)
+            formdata.append("role", "farmer")
+
+            formdata.append("business_name", userDetails.business_name)
+            formdata.append("informal_name", userDetails.informal_name)
+            formdata.append("address", userDetails.address)
+            formdata.append("city", userDetails.city)
+            formdata.append("state", userDetails.state)
+            formdata.append("zip_code", userDetails.zip_code)
+
+            formdata.append("registration_proof", userDetails.registration_proof)
+
+            formdata.append("business_hours", {
+                "mon": mon, "tue": tue, "wed": wed, "thu": thu, "fri": fri, "sat": sat, "sun": sun
+            })
+
             const body = {
                 ...userDetails,
                 business_hours: {
                     mon, tue, wed, thu, fri, sat, sun
                 }
             };
+            console.log("formated data", formdata);
+            console.log(" data", body);
+
             fetch(apiList.signup, {
                 method: 'POST',
                 headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'multipart/form-data'
                 },
-                body: JSON.stringify(body)
+                body: formdata
             })
                 .then((res) => {
+                    console.log(res);
+
                     if (res.ok) navigation.navigate("SignupComplete")
-                    else Alert.alert(res.ok ? "Success" : "Alert", `status:${res.status}`)
+                    else Alert.alert(res.ok ? "Success" : "Alert", `status:${res.status}`
+                        , [
+                            {
+                                text: "Ok",
+                                onPress: () => navigation.navigate("SignupComplete")
+                            },
+                        ],
+                        { cancelable: true }
+                    )
                 }
-                )
+                ).catch(function (error) {
+                    Alert.alert("Signup error", error)
+                })
         } catch (error: any) {
             Alert.alert("Signup error", error)
         }
@@ -166,68 +199,69 @@ export default function ({ navigation, route }: { navigation: any, route: any })
         <>
             <View style={GlobalStyles.container}>
                 <Text style={GlobalStyles.appName}>{displayName}</Text>
-                <Text style={GlobalStyles.signupStep}>Signup 4 of 4</Text>
-                <Text style={GlobalStyles.title}>
-                    Business Hours
-                </Text>
-                <Text style={styles.description}>Attached proof of Department of Agriculture registrations... Florida Fresh, USDA Approved. USDA Organic</Text>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <Text style={GlobalStyles.signupStep}>Signup 4 of 4</Text>
+                    <Text style={GlobalStyles.title}>
+                        Business Hours
+                    </Text>
+                    <Text style={styles.description}>Attached proof of Department of Agriculture registrations... Florida Fresh, USDA Approved. USDA Organic</Text>
 
-                <View style={[{ flexDirection: 'row' }]} >
+                    <View style={[styles.workingHoursContainer, { marginVertical: 20 }]} >
 
-                    {
+                        {
 
-                        weekDay.map((item: any, index) => {
-                            return (
-                                <TouchableOpacity onPress={function () {
-                                    setselectedDay(item)
-                                }} key={index}><Text style={[
-                                    styles.weekDay,
-                                    {
-                                        backgroundColor: item === selectedDay ? colors.primary : colors.lightGray,
-                                        color: item === selectedDay ? colors.white : colors.black,
-                                    }
-                                ]}>{item}</Text></TouchableOpacity>
-                            )
-                        })
-                    }
-                </View>
+                            weekDay.map((item: any, index) => {
+                                return (
+                                    <TouchableOpacity onPress={function () {
+                                        setselectedDay(item)
+                                    }} key={index}><Text style={[
+                                        styles.weekDay,
+                                        {
+                                            backgroundColor: item === selectedDay ? colors.primary : colors.lightGray,
+                                            color: item === selectedDay ? colors.white : colors.black,
+                                        }
+                                    ]}>{item}</Text></TouchableOpacity>
+                                )
+                            })
+                        }
+                    </View>
 
-                <View style={styles.workingHoursContainer}>
-                    {
-                        workingHours.map((item: any, index) => {
-                            return (
-                                <TouchableOpacity onPress={() => setWorkingHours({ item })} key={index}><Text style={[
-                                    styles.workingHours,
-                                    {
-                                        backgroundColor:
-                                            checkIfSelected({ item }) ? colors.secondary : colors.lightGray,
-                                    }
-                                ]}>{item}</Text>
-                                </TouchableOpacity>
-                            )
-                        })
-                    }
+                    <View style={styles.workingHoursContainer}>
+                        {
+                            workingHours.map((item: any, index) => {
+                                return (
+                                    <TouchableOpacity onPress={() => setWorkingHours({ item })} key={index}><Text style={[
+                                        styles.workingHours,
+                                        {
+                                            backgroundColor:
+                                                checkIfSelected({ item }) ? colors.secondary : colors.lightGray,
+                                        }
+                                    ]}>{item}</Text>
+                                    </TouchableOpacity>
+                                )
+                            })
+                        }
 
-                </View>
+                    </View>
 
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity
-                        style={{ width: 90, alignItems: 'center', justifyContent: 'center' }}
-                        onPress={function () {
-                            navigation.goBack();
-                        }}
-                    >
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity
+                            style={{ width: 90, alignItems: 'center', justifyContent: 'center' }}
+                            onPress={function () {
+                                navigation.goBack();
+                            }}
+                        >
 
-                        <MaterialIcons size={30} color={colors.black} name="keyboard-backspace" />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={validation}
-                    >
-                        <Text style={[GlobalStyles.button, { width: (width / 100 * 85) - 90 }]}>Signup</Text>
-                    </TouchableOpacity>
-                </View>
+                            <MaterialIcons size={30} color={colors.black} name="keyboard-backspace" />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={validation}
+                        >
+                            <Text style={[GlobalStyles.button, { width: (width / 100 * 85) - 90 }]}>Signup</Text>
+                        </TouchableOpacity>
+                    </View>
 
-
+                </ScrollView>
             </View>
         </>
     )
@@ -267,13 +301,12 @@ const styles = StyleSheet.create({
     },
     weekDay: {
         height: 40,
-        width: 40,
+        width: 39,
         margin: 5,
         borderRadius: 8,
         flexDirection: "row",
         backgroundColor: colors.lightGray,
-        marginVertical: 20,
-        fontSize: 14,
+        fontSize: 13,
         fontWeight: '600',
         color: colors.black,
         textAlign: 'center',

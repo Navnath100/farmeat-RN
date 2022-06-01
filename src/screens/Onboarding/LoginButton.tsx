@@ -26,7 +26,7 @@ export default function LoginButton({ currentIndex, navigation }: { currentIndex
 const styles = StyleSheet.create({
     container: {
         width,
-        height: (height / 100) * 20,
+        height:(height/100*25)-50,
         backgroundColor: colors.white,
         justifyContent: 'center',
         alignItems: 'center',
@@ -47,9 +47,7 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline',
         fontSize: 14,
         fontWeight: '500',
-        marginVertical: 20,
-        padding:10,
-        paddingHorizontal:20,
+        padding:20,
         color: colors.black
     }
 })

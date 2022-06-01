@@ -21,7 +21,7 @@ export default function Index({ navigation }: { navigation: any }) {
             setCurrentIndex(changed[0].index);
         }
     })
-
+    
     return (
         <View style={styles.container}>
             <Image
@@ -54,7 +54,7 @@ export default function Index({ navigation }: { navigation: any }) {
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 3,
+        height,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'green'
@@ -66,6 +66,9 @@ const styles = StyleSheet.create({
         borderTopEndRadius: 30,
         borderTopStartRadius: 30,
         padding: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center'
     },
     img: {
         width,

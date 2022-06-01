@@ -18,23 +18,13 @@ export default function OnboardingScreen({ item }: { item: any }) {
 const styles = StyleSheet.create({
     container: {
         height: (height / 100) * 80,
-        width: width - 40
-    },
-    img: {
-        height: (height / 100) * 50
-    },
-    footer: {
-        height: (height / 100) * 30,
-        backgroundColor: colors.white,
-        borderTopEndRadius: 30,
-        borderTopStartRadius: 30,
-        padding: 20
+        width: width - 40,
     },
     title: {
         color: colors.black,
         fontSize: 24,
         textAlign: 'center',
-        marginVertical: 20,
+        marginVertical: 10,
         fontWeight: "700"
     },
     description: {

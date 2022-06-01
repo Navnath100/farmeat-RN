@@ -13,7 +13,7 @@ import DocumentPicker from 'react-native-document-picker';
 const { width, height } = Dimensions.get('window');
 const textInputWidth = width / 100 * 90
 export default function Signup3({ navigation, route }: { navigation: any, route: any }) {
-    const [registration_proof, setProof] = useState(String);
+    const [registration_proof, setProof] = useState(null);
     const userDetails = route.params.user;
 
     function validation() {
@@ -49,7 +49,7 @@ export default function Signup3({ navigation, route }: { navigation: any, route:
 
     return (
         <>
-            <View style={[GlobalStyles.container, { justifyContent: 'flex-start', paddingTop: height / 4 }]}>
+            <View style={[GlobalStyles.container, { justifyContent: 'flex-start'  }]}>
                 <Text style={GlobalStyles.appName}>{displayName}</Text>
                 <Text style={GlobalStyles.signupStep}>Signup 3 of 4</Text>
                 <Text style={GlobalStyles.title}>Verification</Text>
@@ -73,7 +73,7 @@ export default function Signup3({ navigation, route }: { navigation: any, route:
                             <Text style={styles.proofName}>{registration_proof}</Text>
                             <TouchableOpacity
                                 onPress={function () {
-                                    setProof(String);
+                                    setProof(null);
                                 }}
                             >
                                 <Entypo name="cross" size={25} color={colors.black} />

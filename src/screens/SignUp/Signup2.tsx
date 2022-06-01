@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, Dimensions, Alert } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Dimensions, Alert, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { displayName } from '../../../app.json';
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -53,8 +53,9 @@ export default function Signup2({ navigation, route }: { navigation: any, route:
 
     return (
         <>
-            <View style={GlobalStyles.container}>
-                <Text style={GlobalStyles.appName}>{displayName}</Text>
+        <View style={GlobalStyles.container}>
+            <Text style={GlobalStyles.appName}>{displayName}</Text>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <Text style={GlobalStyles.signupStep}>Signup 2 of 4</Text>
                 <Text style={GlobalStyles.title}>
                     Farm Info
@@ -148,6 +149,7 @@ export default function Signup2({ navigation, route }: { navigation: any, route:
                 </View>
 
 
+            </ScrollView>
             </View>
         </>
     )

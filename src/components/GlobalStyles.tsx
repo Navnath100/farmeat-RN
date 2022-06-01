@@ -3,19 +3,21 @@ import colors from "../assets/colors";
 const { width, height } = Dimensions.get('window')
 export default StyleSheet.create({
     container: {
-        flex: 1,
+        flex:1,
         backgroundColor: colors.white,
         padding: 20,
         alignItems: 'center',
         justifyContent: 'center'
     },
     appName: {
+        width,
         fontSize: 14,
         color: colors.black,
         fontWeight: '400',
-        position: 'absolute',
-        top: 20,
-        start: 20
+        position: 'relative',
+        backgroundColor: colors.white,
+        alignSelf: 'flex-start',
+        justifyContent: 'flex-start'
     },
     title: {
         fontSize: 32,
@@ -30,24 +32,24 @@ export default StyleSheet.create({
         color: colors.placeholderColor,
         alignSelf: 'flex-start',
         marginBottom: 30,
-        textAlign: 'center'
+        textAlign: 'center',
     },
     subTitleButton: {
         textDecorationLine: 'underline',
-        color: colors.primary
+        color: colors.primary,
     },
     button: {
         height: 50,
         width: width / 100 * 85,
         fontSize: 18,
         fontWeight: '500',
-        color:colors.white,
-        borderRadius:30,
-        marginVertical:20,
+        color: colors.white,
+        borderRadius: 30,
+        marginVertical: 20,
         backgroundColor: colors.primary,
         textAlign: 'center',
         textAlignVertical: 'center',
-      },
+    },
     textInputContainer: {
         height: 50,
         width: (width / 100) * 90,
@@ -55,8 +57,8 @@ export default StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: colors.lightGray,
         marginVertical: 10,
-        alignItems:'center',
-        justifyContent:'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     textInput: {
         // width: (width / 100) * 90,
@@ -78,8 +80,9 @@ export default StyleSheet.create({
         fontWeight: '400',
         textAlignVertical: 'center'
     },
-    signupStep:{
-alignSelf:'flex-start',
-color:colors.placeholderColor
+    signupStep: {
+        alignSelf: 'flex-start',
+        color: colors.placeholderColor,
+        marginVertical: 10
     }
 })

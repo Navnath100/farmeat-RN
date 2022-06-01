@@ -29,11 +29,11 @@ export default function Paginator({ data, scrollx }: { data: Array<Object>, scro
 const styles = StyleSheet.create({
     container: {
         width,
-        height: 64,
+        height: 50,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: colors.white
+        backgroundColor: colors.white,
     },
     dot: {
         height: 10,
